@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Offer implements Comparable{
+public class Offer implements Comparable<Offer>{
     private int id;
     private int price;
     private String adep;
@@ -13,9 +13,8 @@ public class Offer implements Comparable{
     private int duration;
 
     @Override
-    public int compareTo(Object o) {
-        Offer p = (Offer) o;
-        return price - p.price;
+    public int compareTo(Offer o) {
+        return price - o.price;
     }
 
     public boolean matchesAdep(String search) {

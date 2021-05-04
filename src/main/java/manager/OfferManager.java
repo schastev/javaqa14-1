@@ -4,6 +4,7 @@ import domain.Offer;
 import repository.OfferRepository;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class OfferManager {
 
@@ -15,7 +16,7 @@ public class OfferManager {
 
     public void save(Offer item) {repository.save(item);}
 
-    public Offer[] searchBy(String adep, String aod) {
+    public Offer[] searchBy(String adep, String aod, Comparator<Offer> comparator) {
         Offer[] items = repository.getAll();
         Offer[] searchResult = new Offer[0];
         for (Offer item : items) {
@@ -29,7 +30,7 @@ public class OfferManager {
                 searchResult = tmp;
             }
         }
-        Arrays.sort(searchResult);
+        Arrays.sort(searchResult, comparator);
         return searchResult;
     }
 

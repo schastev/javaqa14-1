@@ -1,10 +1,13 @@
 package manager;
 
+import domain.CompareByDuration;
 import domain.Offer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repository.OfferRepository;
+
+import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,6 +25,9 @@ class OfferManagerTest {
     private Offer nine = new Offer(8, 28, "KMG", "KIX", 190);
     private Offer ten = new Offer(9, 99, "FNI", "LGA", 78);
     private Offer eleven = new Offer(10, 30, "MLH", "HRE", 300);
+    private Offer twelve = new Offer(11, 25, "DCA", "DLC", 1000);
+    private Offer thirteen = new Offer(12, 35, "DCA", "DLC", 20);
+    private Offer fourteen = new Offer(13, 55, "DCA", "DLC", 80);
 
     @BeforeEach
     public void setUp() {
@@ -36,6 +42,9 @@ class OfferManagerTest {
         repo.save(nine);
         repo.save(ten);
         repo.save(eleven);
+        repo.save(twelve);
+        repo.save(thirteen);
+        repo.save(fourteen);
     }
 
     @AfterEach
@@ -46,21 +55,21 @@ class OfferManagerTest {
     @Test
     void searchByTestNoResults() {
         Offer[] expected = new Offer[0];
-        Offer[] actual = manager.searchBy("EPL", "DLC");
+        Offer[] actual = manager.searchBy("EPL", "DLC", new CompareByDuration());
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void searchByTestOneResult() {
         Offer[] expected = new Offer[]{six};
-        Offer[] actual = manager.searchBy("KIX", "KMG");
+        Offer[] actual = manager.searchBy("KIX", "KMG", new CompareByDuration());
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void searchByTestSeveralResults() {
-        Offer[] expected = new Offer[]{four, one};
-        Offer[] actual = manager.searchBy("DCA", "DLC");
+        Offer[] expected = new Offer[]{thirteen, four, fourteen, one, twelve};
+        Offer[] actual = manager.searchBy("DCA", "DLC", new CompareByDuration());
         assertArrayEquals(expected, actual);
     }
 }
